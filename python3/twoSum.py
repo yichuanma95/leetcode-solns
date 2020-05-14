@@ -13,25 +13,30 @@ return [0, 1].
 
 class Solution:
     def twoSum(self, nums: List[int], target: int) -> List[int]:
-        indexDict = {}
-        out = []
+        ''' (Solution, list of ints, int) -> list of ints
         
-        for i in range(len(nums)):
-            if nums[i] in indexDict:
-                indexDict[nums[i]].append(i)
-            else:
-                indexDict[nums[i]] = [i]
-        while len(indexDict) > 0:
-            num, indices = indexDict.popitem()
-            ind = indices.pop(0)
-            if len(indices) > 0:
-                indexDict[num] = indices
-            if (target - num) in indexDict:
-                # found the second number
-                out.append(ind)
-                ind2 = indexDict[target - num][0]
-                out.append(ind2)
-                out.sort()
-                break
+        Return the indices of two numbers in the given list such that those two numbers in
+        the list add up to the given target.
         
-        return out
+        >>> soln = Solution()
+        >>> soln.twoSum([2, 7, 11, 15], 9)
+        [0, 1]
+        '''
+        
+        # Set up a dictionary to store numbers and their respective indices in nums.
+        num_to_index = {}
+        
+        # Loop through nums to find a pair of indices that refer to numbers in nums that add
+        # up to target.
+        length = len(nums)
+        for i in range(length):
+            num = nums[i]
+            diff_from_target = target - num
+            
+            # If the difference between the current number and target is in num_to_index,
+            # a solution has been found.
+            if diff_from_target in num_to_index:
+                return [num_to_index[diff_from_target], i]
+            
+            # Otherwise, add the current number and its index to num_to_index.
+            num_to_index[num] = i
