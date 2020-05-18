@@ -25,20 +25,18 @@ Output: 0
 
 class Solution:
     def searchInsert(self, nums: List[int], target: int) -> int:
-        return self.binSearch(nums, target, 0, len(nums) - 1)
+        low = 0
+        high = len(nums) - 1
+        
+        while low <= high:
+            middle = (low + high) // 2
+            
+            if nums[middle] == target:
+                return middle
+            if nums[middle] < target:
+                low = middle + 1
+            else:
+                high = middle - 1
+        
+        return low
     
-    # returns the index of target in nums
-    def binSearch(self, nums: List[int], target: int, l: int, r: int) -> int:
-        if l > r:
-            return l
-        
-        mid: int = (l + r) // 2
-        
-        if nums[mid] == target:
-            return mid
-        elif nums[mid] < target:
-            # search right
-            return self.binSearch(nums, target, mid + 1, r)
-        else:
-            # search left
-            return self.binSearch(nums, target, l, mid - 1)
