@@ -23,10 +23,16 @@ Explanation: There are three ways to climb to the top.
 3. 2 steps + 1 step
 '''
 
+import math
+
 class Solution:
     def climbStairs(self, n: int) -> int:
-        phi = (1 + math.sqrt(5)) / 2
-        phiHat = (1 - math.sqrt(5)) / 2
-        F = (phi ** (n + 1) - phiHat ** (n + 1)) / math.sqrt(5)
+        # This problem is basically finding the (n+1)th Fibonacci number so below is
+        # an implementation of Binet's formula, which can calculate the nth Fibonacci number
+        # in constant time.
+        sqrt_5 = math.sqrt(5)
+        phi = (1 + sqrt_5) / 2
+        psi = (1 - sqrt_5) / 2
+        n_plus_1 = n + 1
         
-        return math.floor(F)
+        return math.floor(((phi ** n_plus_1) - (psi ** n_plus_1)) / sqrt_5)

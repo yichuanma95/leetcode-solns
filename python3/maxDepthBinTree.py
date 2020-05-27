@@ -27,10 +27,12 @@ return its depth = 3.
 
 class Solution:
     def maxDepth(self, root: TreeNode) -> int:
-        return self.postOrder(root)
-    
-    def postOrder(self, node: TreeNode) -> int:
-        if node is None:
-            return 0
+        ''' (Solution, TreeNode) -> int
         
-        return max(self.postOrder(node.left), self.postOrder(node.right)) + 1
+        Returns the max depth of the binary tree rooted at root by performing a
+        post-order traversal on the tree.
+        '''
+        
+        return 0 if root is None else (max(self.maxDepth(root.left),
+            self.maxDepth(root.right)) + 1)
+    
