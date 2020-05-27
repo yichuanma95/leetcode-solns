@@ -15,21 +15,33 @@ Example 2:
 Input: [4,1,2,1,2]
 Output: 4
 
-Solution runtime: 88ms, faster than 96.93% of Python3 submissions
+Solution runtime: 84ms, faster than 96.93% of Python3 submissions
 '''
 
 class Solution:
     def singleNumber(self, nums: List[int]) -> int:
-        uniqueNums = {}
+        ''' (Solution, list of int) -> int
         
+        Returns the number that occurs only once in nums, where each other number
+        appears twice.
+        
+        >>> soln = Solution()
+        >>> soln.singleNumber([2, 2, 1])
+        1
+        >>> soln.singleNumber([4, 1, 2, 1, 2])
+        4
+        '''
+        
+        # This set will help to find the single number in nums.
+        num_set = set()
+        
+        # For each number in nums, if the number appears for the first time, put it in the
+        # set. Otherwise, remove it from the set.
         for num in nums:
-            if num in uniqueNums:
-                uniqueNums[num] += 1
+            if num in num_set:
+                num_set.remove(num)
             else:
-                uniqueNums[num] = 1
+                num_set.add(num)
         
-        for key in uniqueNums.keys():
-            if uniqueNums[key] == 1:
-                return key
-        
-        return -1
+        # At this point, the single number will still be in the set.
+        return list(num_set)[0]
