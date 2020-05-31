@@ -49,33 +49,47 @@ Solution memory usage: 27.8 MB, less than 100% of Python3 solutions
 
 class Solution:
     def getIntersectionNode(self, headA: ListNode, headB: ListNode) -> ListNode:
-        currentA: ListNode = headA
-        currentB: ListNode = headB
-        lenA: int = 0
-        lenB: int = 0
+        ''' (Solution, ListNode, ListNode) -> ListNode
         
-        while currentA is not None:
-            lenA += 1
-            currentA = currentA.next
-        while currentB is not None:
-            lenB += 1
-            currentB = currentB.next
+        Returns the node where the linked lists starting at headA and headB intersect if
+        they do, otherwise null.
+        '''
         
-        currentA = headA
-        currentB = headB
-        diff: int = abs(lenB - lenA)
-        for i in range(diff):
-            if lenA > lenB:
-                currentA = currentA.next
-            elif lenB > lenA:
-                currentB = currentB.next
+        # Traverse each list and count the number of node in them.
+        node_count_A = self.len_of_linked_list(headA)
+        node_count_B = self.len_of_linked_list(headB)
+        
+        # For the list with more nodes, move its pointer the difference between the
+        # lists' lengths.
+        len_diff = abs(node_count_A - node_count_B)
+        for i in range(len_diff):
+            if node_count_A > node_count_B:
+                headA = headA.next
             else:
-                break
+                headB = headB.next
         
-        while currentA is not None and currentB is not None:
-            if currentA == currentB:
-                return currentA
-            currentA = currentA.next
-            currentB = currentB.next
+        # Simultaneously move both pointers for A and B and see if they point to the same
+        # node. If so, the intersecting node has been found.
+        while headA and headB:
+            if headA == headB:
+                return headA
+            headA = headA.next
+            headB = headB.next
         
+        # No intersecting node has been found at this point, so the lists don't intersect.
         return None
+
+    def len_of_linked_list(self, head):
+        ''' (Solution, ListNode) -> int
+        
+        Returns the number of nodes that the linked list starting at head contains.
+        '''
+        
+        node_count = 0
+        current = head
+        
+        while current:
+            node_count += 1
+            current = current.next
+        
+        return node_count

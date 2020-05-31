@@ -17,28 +17,33 @@ Explanation: The sum of 2 and 7 is 9. Therefore index1 = 1, index2 = 2.
 '''
 
 class Solution:
-    def twoSum(self, numbers: List[int], target: int) -> List[int]:
-        out = []
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        ''' (Solution, list of ints, int) -> list of ints
         
-        for i in range(len(numbers)):
-            ind2 = self.binSearch(numbers, target - numbers[i], i + 1, len(numbers) - 1)
-            if ind2 > 0:
-                out.append(i + 1)
-                out.append(ind2 + 1)
-                break
+        Return the indices of two numbers in the given list such that those two numbers in
+        the list add up to the given target.
         
-        return out
-    
-    # because we can assume the list is sorted
-    def binSearch(self, nums: List[int], target: int, left: int, right: int) -> int:
-        if left > right: # target not found in array
-            return -1
+        >>> soln = Solution()
+        >>> soln.twoSum([2, 7, 11, 15], 9)
+        [0, 1]
+        '''
         
-        mid = (left + right) // 2
+        # Set up a dictionary to store numbers and their respective indices in nums.
+        num_to_index = {}
         
-        if nums[mid] == target:
-            return mid
-        elif nums[mid] > target: # search to the left
-            return self.binSearch(nums, target, left, mid - 1)
-        else: # search to the right
-            return self.binSearch(nums, target, mid + 1, right)
+        # Loop through nums to find a pair of indices that refer to numbers in nums that add
+        # up to target.
+        length = len(nums)
+        for i in range(length):
+            num = nums[i]
+            diff_from_target = target - num
+            
+            # If the difference between the current number and target is in num_to_index,
+            # a solution has been found.
+            if diff_from_target in num_to_index:
+                result = [num_to_index[diff_from_target] + 1, i + 1]
+                result.sort()
+                return result
+            
+            # Otherwise, add the current number and its index to num_to_index.
+            num_to_index[num] = i
