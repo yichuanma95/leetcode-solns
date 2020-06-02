@@ -21,15 +21,16 @@ Solution memory usage: 14 MB, less than 100% of Python3 submissions
 
 class Solution:
     def majorityElement(self, nums: List[int]) -> int:
-        elems = {}
-        majorityFactor: int = len(nums) // 2
-            
-        for num in nums:
-            if num not in elems:
-                elems[num] = 1
-            else:
-                elems[num] += 1
-            if elems[num] > majorityFactor:
-                return num
+        ''' (Solution, list of int) -> int
         
-        return -1
+        Returns the number in nums that occurs floor(n/2) or more times.
+        
+        >>> soln = Solution()
+        >>> soln.majorityElement([3, 2, 3])
+        3
+        >>> soln.majorityElement([2, 2, 1, 1, 1, 2, 2])
+        2
+        '''
+        
+        # Return the mode in the list
+        return max(set(nums), key=nums.count)
