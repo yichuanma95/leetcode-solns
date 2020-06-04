@@ -28,16 +28,37 @@ Solution memory usage: 12.7 MB, less than 100% of Python3 submissions
 
 class Solution:
     def rob(self, nums: List[int]) -> int:
-        if len(nums) == 0:
+        ''' (Solution, list of int) -> int
+        
+        Returns the maximum amount of money stashed in non-adjacent houses in a
+        community represented by the given list nums, where each element in nums is a
+        house with a certain amount of money stashed in it.
+        
+        >>> soln = Solution()
+        >>> soln.rob([1, 2, 3, 1])
+        4
+        >>> soln.rob([2, 7, 9, 3, 1])
+        12
+        '''
+        
+        n = len(nums)
+        # Base cases:
+        # nums.length = 0
+        if n == 0:
             return 0
-        if len(nums) <= 2:
+        
+        # nums.length < 3
+        if n < 3:
             return max(nums)
-        if len(nums) == 3:
-            return max(nums[0] + nums[2], nums[1])
         
-        C = [nums[0], nums[1], nums[0] + nums[2]]
+        # This list contains the maximum amount that can be robbed after the robber robs
+        # the ith house for i <= n.
+        theft_amounts = [nums[0], nums[1], nums[0] + nums[2]]
         
-        for i in range(3, len(nums)):
-            C.append(max(C[-1], C[-2] + nums[i], C[-3] + nums[i]))
-        
-        return C[-1]
+        # Induction step: theft_amounts[i] = nums[i] + max(theft_amounts[i-2], theft_amounts[i-3])
+        for i in range(3, n):
+            theft_amounts.append(nums[i] + max(theft_amounts[i-2], theft_amounts[i-3]))
+            
+        # Return the max amount in the theft amounts list
+        return max(theft_amounts)
+    
