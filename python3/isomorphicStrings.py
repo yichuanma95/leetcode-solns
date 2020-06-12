@@ -28,19 +28,44 @@ Solution memory usage: 12.9 MB, less than 100% of Python3 submissions
 
 class Solution:
     def isIsomorphic(self, s: str, t: str) -> bool:
-        charTable = {}
-        charTableInverse = {}
+        ''' (Solution, str, str) -> bool
         
-        for i in range(len(s)):
-            if s[i] in charTable:
-                if charTable[s[i]] != t[i]:
-                    return False
-            else:
-                charTable[s[i]] = t[i]
-            if t[i] in charTableInverse:
-                if charTableInverse[t[i]] != s[i]:
-                    return False
-            else:
-                charTableInverse[t[i]] = s[i]
+        Precondition: s and t must have the same length.
+        
+        Returns True iff s and t are isomorphic; that is, each char in s can be replaced to
+        get t.
+        
+        >>> soln = Solution()
+        >>> soln.isIsomorphic('egg', 'add')
+        True
+        >>> soln.isIsomorphic('foo', 'bar')
+        False
+        >>> soln.isIsomorphic('paper', 'title')
+        True
+        '''
+        
+        # This dictionary maps each char in s to the corresponding char in t.
+        s_to_t = {}
+        
+        # This dictionary maps each char in t to the corresponding char in s.
+        t_to_s = {}
+        
+        str_len = len(s)
+        for i in range(str_len):
+            s_char = s[i]
+            t_char = t[i]
+            
+            # If the value for the current char in s in s_to_t is different from the
+            # current char in t, s and t are not isomorphic.
+            s_value = s_to_t.setdefault(s_char, t_char)
+            if s_value != t_char:
+                return False
+            
+            # If the value for the current char in t in t_to_s is different from the
+            # current char in s, s and t are not isomorphic.
+            t_value = t_to_s.setdefault(t_char, s_char)
+            if t_value != s_char:
+                return False
         
         return True
+
