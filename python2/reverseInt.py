@@ -21,13 +21,13 @@ returns 0 when the reversed integer overflows.
 '''
 
 class Solution:
-    def reverse(self, x: int) -> int:
+    def reverse(self, x):
         ''' (Solution, int) -> int
         
         Reverse the digits of a given integer. If the given integer is negative, then the
         reversed integer should be negative as well. If the given integer has zeros at the
-        end, then the reversed integer should not have the leading zeroes. If the reversed
-        integer is outside the 32-bit signed integer range, then zero is returned.
+        end, then the reversed integer should not have the leading zeroes. If the
+        reversed integer is outside the 32-bit signed integer range, then zero is returned.
         
         >>> soln = Solution()
         >>> soln.reverse(123)
@@ -41,6 +41,7 @@ class Solution:
         '''
         
         is_negative = x < 0
+        
         reversed_num = self.reverse_num(abs(x))
         
         if -reversed_num < -(2 ** 31) or reversed_num > (2 ** 31) - 1:
@@ -48,11 +49,11 @@ class Solution:
     
         return -reversed_num if is_negative else reversed_num
         
-    def reverse_num(self, x: int) -> int:
+    def reverse_num(self, x):
         ''' (Solution, int) -> int
         
-        Reverse the digits of a given number and return it. If the given number has zeros at
-        the end, then the reversed number should not have the leading zeroes.
+        Reverse the digits of a given number and return it. If the given number has zeros
+        at the end, then the reversed number should not have the leading zeroes.
         
         >>> soln = Solution()
         >>> soln.reverse_num(123)
