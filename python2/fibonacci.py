@@ -26,8 +26,8 @@ Explanation: F(4) = F(3) + F(2) = 2 + 1 = 3.
 Note: 0 ≤ N ≤ 30.
 '''
 
-class Solution:
-    def fib(self, N: int) -> int:
+class Solution(object):
+    def fib(self, N):
         ''' (Solution, int) -> int
         
         Returns the Nth Fibonacci number, which is the sum of the two preceding numbers.
@@ -46,5 +46,5 @@ class Solution:
         phi = (1 + sqrt_5) / 2
         psi = (1 - sqrt_5) / 2
         
-        return math.floor(((phi ** N) - (psi ** N)) / sqrt_5)
+        return int(((phi ** N) - (psi ** N)) / sqrt_5)
     

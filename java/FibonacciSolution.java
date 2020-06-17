@@ -1,4 +1,4 @@
-'''
+/*
 Problem 509: Fibonacci Number
 
 The Fibonacci numbers, commonly denoted F(n) form a sequence, called the Fibonacci sequence,
@@ -24,27 +24,14 @@ Output: 3
 Explanation: F(4) = F(3) + F(2) = 2 + 1 = 3.
 
 Note: 0 ≤ N ≤ 30.
-'''
 
-class Solution:
-    def fib(self, N: int) -> int:
-        ''' (Solution, int) -> int
+Solution runtime: 0ms, faster than 100% of Java submissions
+*/
+
+class FibonacciSolution {
+    public int fib(int N) {
+        double sqrt5 = Math.sqrt(5), phi = (1 + sqrt5) / 2, psi = (1 - sqrt5) / 2;
         
-        Returns the Nth Fibonacci number, which is the sum of the two preceding numbers.
-        This sequence begins with 0 and 1.
-        
-        >>> soln = Solution()
-        >>> soln.fib(2)
-        1
-        >>> soln.fib(3)
-        2
-        >>> soln.fib(4)
-        3
-        '''
-        
-        sqrt_5 = math.sqrt(5)
-        phi = (1 + sqrt_5) / 2
-        psi = (1 - sqrt_5) / 2
-        
-        return math.floor(((phi ** N) - (psi ** N)) / sqrt_5)
-    
+        return (int)((Math.pow(phi, N) - Math.pow(psi, N)) / sqrt5);
+    }
+}
