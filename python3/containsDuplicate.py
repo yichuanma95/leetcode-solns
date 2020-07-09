@@ -19,15 +19,22 @@ Input: [1,1,1,3,3,4,3,2,4,2]
 Output: true
 '''
 
-import collections
-
 class Solution:
     def containsDuplicate(self, nums: List[int]) -> bool:
-        elems = collections.defaultdict(int)
+        ''' (Solution, list of int) -> bool
         
-        for num in nums:
-            elems[num] += 1
-            if elems[num] > 1:
-                return True
+        Returns True iff there exists a duplicate value in nums.
         
-        return False
+        >>> soln = Solution
+        >>> soln.containsDuplicate([1, 2, 3, 1])
+        True
+        >>> soln.containsDuplicate([1, 2, 3, 4])
+        False
+        '''
+        
+        # Define a set which contains all distinct values in nums
+        num_set = set(nums)
+        
+        # If the length of nums is different from that of the set, there is a duplicate
+        # value in nums.
+        return len(num_set) != len(nums)
