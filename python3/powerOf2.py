@@ -17,14 +17,15 @@ Example 3:
 Input: 218
 Output: false
 
+Solution runtime: 28ms, faster than 92.33% of Python3 submissions
+
 Solution memory usage: 12.8 MB, less than 100% of Python3 submissions
 '''
 
 class Solution:
     def isPowerOfTwo(self, n: int) -> bool:
-        k = 0
-        
-        while 2 ** k < n:
-            k += 1
-        
-        return 2 ** k == n
+        while n & 1 == 0 and n > 0:
+            n >>= 1
+            
+        return n == 1
+    
