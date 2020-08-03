@@ -16,35 +16,23 @@ Follow up:Could you do it in O(n) time and O(1) space?
 
 # Definition for singly-linked list.
 # class ListNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
-
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
 class Solution:
     def isPalindrome(self, head: ListNode) -> bool:
-        nodeStack = []
-        current: ListNode = head
-        nodes: int = 0
-        count: int = 1
-        
-        while current is not None:
-            nodes += 1
-            current = current.next
+        value_list = []
         current = head
-        half: int = nodes // 2
+        while current:
+            value_list.append(current.val)
+            current = current.next
+        return self.is_list_palindrome(value_list)
+    
+    def is_list_palindrome(self, vals: [int]) -> bool:
+        left = 0
+        right = len(vals) - 1
+        while left < right and vals[left] == vals[right]:
+            left += 1
+            right -= 1
         
-        while count <= half:
-            print(current.val)
-            nodeStack.append(current.val)
-            count += 1
-            current = current.next
-        if nodes % 2 != 0:
-            current = current.next
-        while current is not None:
-            if current.val != nodeStack[-1]:
-                return False
-            else:
-                nodeStack.pop()
-            current = current.next
-
-        return True
+        return left >= right
