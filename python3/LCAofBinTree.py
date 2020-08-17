@@ -33,32 +33,29 @@ Solution memory usage: 23.2 MB, less than 91.67% of Python3 submissions
 #         self.left = None
 #         self.right = None
 
-import copy
-
 class Solution:
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
-        paths = []
-        
-        self.traverse(root, p, q, [], paths)
-        pathP = paths[0]
-        pathQ = paths[1]
-        for i in range(min(len(pathP), len(pathQ))):
-            if pathP[i] != pathQ[i]:
-                return TreeNode(pathP[i-1])
-            
-        if len(pathP) > len(pathQ):
-            return TreeNode(pathQ[-1])
-        return TreeNode(pathP[-1])
-        
-    def traverse(self, node, p, q, path, collector):
-        if node is None:
+        path_for_p = []
+        self.DFS_and_path_trace(root, p, path_for_p)
+        path_for_q = []
+        self.DFS_and_path_trace(root, q, path_for_q)
+        min_path_length = min(len(path_for_p), len(path_for_q))
+        i = 0
+        while i < min_path_length - 1 and path_for_p[i] == path_for_q[i]:
+            i += 1
+        while path_for_p[i] != path_for_q[i]:
+            i -= 1
+        return TreeNode(path_for_p[i])
+    
+    def DFS_and_path_trace(self, root, node, path):
+        '''
+        Performs a depth-first search on the BST rooted at root and traces and records the
+        path from root to node.
+        '''
+        if root is None:
             return
-        
-        path.append(node.val)
-        if node.val in [p.val, q.val]:
-            collector.append(copy.deepcopy(path))
-        if len(collector) == 2:
-            return
-        self.traverse(node.left, p, q, path, collector)
-        self.traverse(node.right, p, q, path, collector)
-        path.pop()
+        path.append(root.val)
+        self.DFS_and_path_trace(root.left, node, path)
+        self.DFS_and_path_trace(root.right, node, path)
+        if path[-1] != node.val:
+            path.pop()

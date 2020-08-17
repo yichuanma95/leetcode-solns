@@ -36,26 +36,27 @@ Solution memory usage: 16.7 MB, less than 100% of Python3 submissions
 
 class Solution:
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
-        pathP = []
-        self.searchBST(root, p.val, pathP)
-        pathQ = []
-        self.searchBST(root, q.val, pathQ)
-        
-        for i in range(min(len(pathP), len(pathQ))):
-            if pathP[i].val != pathQ[i].val:
-                return pathP[i-1]
-        
-        if len(pathP) < len(pathQ):
-            return pathP[-1]
-        return pathQ[-1]
+        path_for_p = []
+        self.DFS_and_path_trace(root, p, path_for_p)
+        path_for_q = []
+        self.DFS_and_path_trace(root, q, path_for_q)
+        min_path_length = min(len(path_for_p), len(path_for_q))
+        i = 0
+        while i < min_path_length - 1 and path_for_p[i] == path_for_q[i]:
+            i += 1
+        while path_for_p[i] != path_for_q[i]:
+            i -= 1
+        return TreeNode(path_for_p[i])
     
-    def searchBST(self, node, target, path):
-        if node is None:
-            return False
-        
-        path.append(node)
-        if node.val == target:
-            return True
-        elif node.val < target:
-            return self.searchBST(node.right, target, path)
-        return self.searchBST(node.left, target, path)
+    def DFS_and_path_trace(self, root, node, path):
+        '''
+        Performs a depth-first search on the BST rooted at root and traces and records the
+        path from root to node.
+        '''
+        if root is None:
+            return
+        path.append(root.val)
+        self.DFS_and_path_trace(root.left, node, path)
+        self.DFS_and_path_trace(root.right, node, path)
+        if path[-1] != node.val:
+            path.pop()
