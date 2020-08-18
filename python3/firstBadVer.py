@@ -24,7 +24,7 @@ Then 4 is the first bad version.
 
 # The isBadVersion API is already defined for you.
 # @param version, an integer
-# @return a bool
+# @return an integer
 # def isBadVersion(version):
 
 class Solution:
@@ -33,17 +33,14 @@ class Solution:
         :type n: int
         :rtype: int
         """
-        return self.binSearch(1, n)
+        return self.bin_search_for_bad_ver(1, n)
     
-    def binSearch(self, lo, hi):
-        mid = (lo + hi) // 2
-        
-        if isBadVersion(mid):
-            if not isBadVersion(mid - 1):
-                return mid
-            else:
-                # search left
-                return self.binSearch(lo, mid - 1)
-        else:
-            # search right
-            return self.binSearch(mid + 1, hi)
+    def bin_search_for_bad_ver(self, low, high):
+        middle = (low + high) // 2
+        if isBadVersion(middle) and not isBadVersion(middle - 1):
+            return middle
+        if not isBadVersion(middle) and isBadVersion(middle + 1):
+            return middle + 1
+        if isBadVersion(middle):
+            return self.bin_search_for_bad_ver(low, middle - 1)
+        return self.bin_search_for_bad_ver(middle + 1, high)
