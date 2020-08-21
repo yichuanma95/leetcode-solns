@@ -31,24 +31,18 @@ Solution memory usage: 12.8 MB, less than 100% of Python3 submissions
 '''
 
 class Solution:
-    def wordPattern(self, pattern: str, string: str) -> bool:
-        words: List[str] = string.split(" ")
-        if len(pattern) != len(words):
+    def wordPattern(self, pattern: str, str: str) -> bool:
+        words = str.split()
+        num_words = len(words)
+        if num_words != len(pattern):
             return False
-        
-        charMap = {}
-        wordMap = {}
-        
-        for i in range(len(pattern)):
-            if pattern[i] in charMap:
-                if charMap[pattern[i]] != words[i]:
-                    return False
-            else:
-                charMap[pattern[i]] = words[i]
-            if words[i] in wordMap:
-                if wordMap[words[i]] != pattern[i]:
-                    return False
-            else:
-                wordMap[words[i]] = pattern[i]
-        
+        letter_to_word = {}
+        word_to_letter = {}
+        for i in range(num_words):
+            if words[i] in word_to_letter and word_to_letter[words[i]] != pattern[i]:
+                return False
+            if pattern[i] in letter_to_word and letter_to_word[pattern[i]] != words[i]:
+                return False
+            letter_to_word[pattern[i]] = words[i]
+            word_to_letter[words[i]] = pattern[i]
         return True

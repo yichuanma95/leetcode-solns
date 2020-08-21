@@ -20,12 +20,14 @@ class Solution:
         """
         Do not return anything, modify nums in-place instead.
         """
-        pointer2 = 0
-        
-        for i in range(1, len(nums)):
-            if nums[pointer2] == 0:
-                if nums[i] != 0:
-                    nums[i], nums[pointer2] = nums[pointer2], nums[i]
-                    pointer2 += 1
-            else:
-                pointer2 += 1
+        p1 = 0
+        for p2 in range(len(nums)):
+            p1 = self.move_zero_and_adjust_p1(nums, p1, p2)
+    
+    def move_zero_and_adjust_p1(self, nums, p1, p2):
+        if nums[p1] != 0:
+            return p1 + 1
+        if nums[p1] == 0 and nums[p2] != 0:
+            nums[p1], nums[p2] = nums[p2], nums[p1]
+            return p1 + 1
+        return p1
