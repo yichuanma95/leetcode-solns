@@ -13,11 +13,13 @@ Output: false
 
 Follow up: Could you solve it without loops/recursion?
 
-Solution runtime: 24ms, faster than 97.55% of Python3 submissions
-
-Solution memory usage: 12.7 MB, less than 100% of Python3 submissions
+Solution runtime: 12ms, faster than 98.55% of Python submissions
 '''
 
-class Solution:
-    def isPowerOfFour(self, num: int) -> bool:
+class Solution(object):
+    def isPowerOfFour(self, num):
+        """
+        :type num: int
+        :rtype: bool
+        """
         return num > 0 and 4 ** math.ceil(math.log(num, 4)) == num
