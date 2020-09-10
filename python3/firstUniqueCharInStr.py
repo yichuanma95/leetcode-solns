@@ -16,19 +16,16 @@ Note: You may assume the string contain only lowercase letters.
 Solution memory usage: 12.9 MB, less than 100% of Python3 submissions
 '''
 
+from collections import defaultdict
+
 class Solution:
     def firstUniqChar(self, s: str) -> int:
-        duplicates = set()
-        uniques = dict()
-        
-        for i in range(len(s)):
-            if s[i] in uniques:
-                del uniques[s[i]]
-                duplicates.add(s[i])
-            else:
-                if s[i] not in duplicates:
-                    uniques[s[i]] = i
-
-        if len(uniques) == 0:
-            return -1
-        return min(uniques.values())
+        letters_to_indices = defaultdict(list)
+        for i, c in enumerate(s):
+            letters_to_indices[c].append(i)
+        indices_of_single_chars = []
+        for v in letters_to_indices.values():
+            if len(v) == 1:
+                indices_of_single_chars.append(v[0])
+        return min(indices_of_single_chars) if len(indices_of_single_chars) > 0 else -1
+    

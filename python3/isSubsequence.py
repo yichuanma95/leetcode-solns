@@ -27,17 +27,10 @@ Credits: Special thanks to @pbrother for adding this problem and creating all te
 
 class Solution:
     def isSubsequence(self, s: str, t: str) -> bool:
-        if len(s) > len(t):
-            return False
-        if len(s) == 0:
-            return True
-        
-        sPointer = 0
-        
-        for i in range(len(t)):
-            if s[sPointer] == t[i]:
-                sPointer += 1
-                if sPointer == len(s):
-                    return True
-        
-        return False
+        i = 0
+        for c in t:
+            try:
+                i += (1 if s[i] == c else 0)
+            except IndexError:
+                break
+        return i == len(s)
