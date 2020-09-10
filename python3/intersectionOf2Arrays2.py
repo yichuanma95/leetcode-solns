@@ -27,21 +27,20 @@ Solution runtime: 40ms, faster than 93.79% of Python3 submissions
 Solution memory usage: 12.9 MB, less than 100% of Python3 submissions
 '''
 
-import collections
+from collections import defaultdict
 
 class Solution:
     def intersect(self, nums1: List[int], nums2: List[int]) -> List[int]:
-        d1 = collections.defaultdict(int)
-        for num in nums1:
-            d1[num] += 1
-        d2 = collections.defaultdict(int)
-        for num in nums2:
-            d2[num] += 1
-        intersect = []
+        nums1_elem_count = self.get_elem_count(nums1)
+        nums2_elem_count = self.get_elem_count(nums2)
+        intersection = []
+        for key in nums1_elem_count.keys():
+            if key in nums2_elem_count:
+                intersection += ([key] * min(nums1_elem_count[key], nums2_elem_count[key]))
+        return intersection
         
-        for key in d1.keys():
-            if key in d2:
-                for i in range(min(d1[key], d2[key])):
-                    intersect.append(key)
-        
-        return intersect
+    def get_elem_count(self, nums):
+        elem_count = defaultdict(int)
+        for num in nums:
+            elem_count[num] += 1
+        return elem_count

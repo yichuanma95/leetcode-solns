@@ -17,21 +17,19 @@ canConstruct("aa", "aab") -> true
 Solution memory usage: 12.8 MB, less than 100% of Python3 submissions
 '''
 
-import collections
+from collections import defaultdict
 
 class Solution:
     def canConstruct(self, ransomNote: str, magazine: str) -> bool:
-        lettersNeeded = collections.defaultdict(int)
-        for l in ransomNote:
-            lettersNeeded[l] += 1
-        lettersAvailable = collections.defaultdict(int)
-        for l in magazine:
-            lettersAvailable[l] += 1
-        
-        for key in lettersNeeded.keys():
-            if key not in lettersAvailable:
+        note_letter_count = self.get_letter_count(ransomNote)
+        mag_letter_count = self.get_letter_count(magazine)
+        for key in note_letter_count.keys():
+            if note_letter_count[key] > mag_letter_count[key]:
                 return False
-            if lettersNeeded[key] > lettersAvailable[key]:
-                return False
-        
         return True
+    
+    def get_letter_count(self, text):
+        letter_count = defaultdict(int)
+        for c in text:
+            letter_count[c] += 1
+        return letter_count

@@ -18,6 +18,7 @@ Solution memory usage: 12.7 MB, less than 100% of Python3 submissions
 '''
 
 class Solution:
+    # The O(log n) solution that uses binary search.
     def isPerfectSquare(self, num: int) -> bool:
         if num == 0:
             return False
@@ -36,3 +37,11 @@ class Solution:
         if square < num: # search right
             return self.binSearch(mid + 1, hi, num)
         return self.binSearch(lo, mid - 1, num)
+
+    # The O(sqrt(n)) solution
+    def isPerfectSquare_v2(self, num: int) -> bool:
+        i = 1
+        while i ** 2 < num:
+            i += 1
+        return i ** 2 == num
+    
