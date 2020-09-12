@@ -17,27 +17,20 @@ Solution memory usage: 13 MB, less than 100% of Python3 submissions
 
 # Definition for a binary tree node.
 # class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
 class Solution:
     def sumOfLeftLeaves(self, root: TreeNode) -> int:
-        return self.traverse(root)
-        
-    def traverse(self, node):
-        if node is None:
-            return 0
-        
-        leftLeafSum = 0
-        
-        if node.left is not None:
-            # check if left child is a leaf
-            if node.left.left is None and node.left.right is None:
-                leftLeafSum = node.left.val
-            else:
-                leftLeafSum += self.traverse(node.left)
-        leftLeafSum += self.traverse(node.right)
-        
-        return leftLeafSum
+        vals = []
+        self.get_left_leaf_vals(root, vals)
+        return sum(vals)
+    
+    def get_left_leaf_vals(self, root, vals):
+        if not root:
+            return
+        self.get_left_leaf_vals(root.left, vals)
+        if root.left and not (root.left.left or root.left.right):
+            vals.append(root.left.val)
+        self.get_left_leaf_vals(root.right, vals)
