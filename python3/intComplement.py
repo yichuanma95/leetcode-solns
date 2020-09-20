@@ -30,14 +30,17 @@ Explanation: 10 is "1010" in binary, with complement "0101" in binary, which is 
 Note: 0 <= N < 10^9
 '''
 
+import math
+
 class Solution:
-    def bitwiseComplement(self, N: int) -> int:
-        binary = list(str(bin(N))[2:])
-        
-        for i in range(len(binary)):
-            if binary[i] == '1':
-                binary[i] = '0'
-            else:
-                binary[i] = '1'
-                
-        return int(''.join(binary), 2)
+    def bitwiseComplement(self, num: int) -> int:
+        if num == 0:
+            return 1
+        bits_occupied = math.ceil(math.log(num, 2))
+        if 2 ** bits_occupied == num:
+            return num - 1
+        mask = 1
+        for i in range(bits_occupied - 1):
+            mask <<= 1
+            mask += 1
+        return num ^ mask

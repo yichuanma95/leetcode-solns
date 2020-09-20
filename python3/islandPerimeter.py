@@ -22,35 +22,28 @@ Output: 16
 Image for explanation is actually on LeetCode.
 '''
 
-import collections
-
 class Solution:
     def islandPerimeter(self, grid: List[List[int]]) -> int:
-        cells = collections.defaultdict(int)
-        total = 0
-        
-        for i in range(len(grid)):
-            for j in range(len(grid[0])):
-                if grid[i][j] == 1:
-                    total += 4
-                    cells[(i,j)] = self.findNeighbours(i, j, grid)
-        
-        return total - sum(cells.values())
+        perimeter = 4 * sum(sum(row) for row in grid)
+        for i, row in enumerate(grid):
+            perimeter -= self.process_row(grid, i, row)
+        return perimeter
     
-    def findNeighbours(self, i, j, grid):
-        neighbors = 0
-        
-        if i > 0: # north
-            neighbors += grid[i-1][j]
-        try: # east
-            neighbors += grid[i][j+1]
+    def process_row(self, grid, i, row):
+        to_subtract = 0
+        for j, v in enumerate(row):
+            if v == 1:
+                to_subtract += self.check_neighbor(grid, (i - 1, j))
+                to_subtract += self.check_neighbor(grid, (i, j + 1))
+                to_subtract += self.check_neighbor(grid, (i + 1, j))
+                to_subtract += self.check_neighbor(grid, (i, j - 1))
+        return to_subtract
+
+    def check_neighbor(self, grid, neighbor):
+        i, j = neighbor
+        if i < 0 or j < 0:
+            return 0
+        try:
+            return grid[i][j]
         except IndexError:
-            pass
-        try: # south
-            neighbors += grid[i+1][j]
-        except IndexError:
-            pass
-        if j > 0: # west
-            neighbors += grid[i][j-1]
-        
-        return neighbors
+            return 0

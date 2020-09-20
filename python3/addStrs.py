@@ -13,26 +13,21 @@ Notes:
 
 class Solution:
     def addStrings(self, num1: str, num2: str) -> str:
-        digits1: List[int] = list(map(lambda x: int(x), num1))
-        digits2: List[int] = list(map(lambda x: int(x), num2))
-        resultNum: List[int] = []
-        if len(digits1) > len(digits2):
-            bigger = digits1
-        else:
-            bigger = digits2
-        minDigits: int = min(len(num1), len(num2))
-        diff: int = max(len(num1), len(num2)) - minDigits
-        carry: int = 0
-
-        for i in range(minDigits):
-            tempSum: int = digits1[-(i+1)] + digits2[-(i+1)] + carry
-            carry = tempSum // 10
-            resultNum.insert(0, tempSum % 10)
-        for i in range(diff):
-            tempSum = bigger[-(i+minDigits+1)] + carry
-            carry = tempSum // 10
-            resultNum.insert(0, tempSum % 10)
-        if carry != 0:
-            resultNum.insert(0, carry)
-        
-        return ''.join(list(map(lambda x: str(x), resultNum)))
+        carry = 0
+        sum_str = ""
+        shorter_len = min(len(num1), len(num2))
+        for i in range(shorter_len):
+            reverse_ind = -(i + 1)
+            digit_sum = int(num1[reverse_ind]) + int(num2[reverse_ind]) + carry
+            carry = digit_sum // 10
+            sum_str += str(digit_sum % 10)
+        if len(num1) > len(num2):
+            return self.finish_addition(num1[:len(num1)-shorter_len], carry) + sum_str[::-1]
+        return self.finish_addition(num2[:len(num2)-shorter_len], carry) + sum_str[::-1]
+    
+    def finish_addition(self, num, carry):
+        if len(num) == 0 and carry > 0:
+            return str(carry)
+        if carry > 0:
+            return self.addStrings(num, str(carry))
+        return num

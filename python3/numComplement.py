@@ -27,11 +27,11 @@ import math
 
 class Solution:
     def findComplement(self, num: int) -> int:
-        bits = bin(num)[2:]
-        complement = 0
-        
-        for b in bits:
-            complement += (1 if b == '0' else 0)
-            complement <<= 1
-        
-        return complement >> 1
+        bits_occupied = math.ceil(math.log(num, 2))
+        if 2 ** bits_occupied == num:
+            return num - 1
+        mask = 1
+        for i in range(bits_occupied - 1):
+            mask <<= 1
+            mask += 1
+        return num ^ mask
