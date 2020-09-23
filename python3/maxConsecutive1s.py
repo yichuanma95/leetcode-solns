@@ -20,13 +20,10 @@ class Solution:
     def findMaxConsecutiveOnes(self, nums: List[int]) -> int:
         maxStreak = 0
         currentStreak = 0
-        
         for n in nums:
             if n == 1:
                 currentStreak += 1
             else:
-                if currentStreak > maxStreak:
-                    maxStreak = currentStreak
+                maxStreak = max(maxStreak, currentStreak)
                 currentStreak = 0
-        
         return max(maxStreak, currentStreak)

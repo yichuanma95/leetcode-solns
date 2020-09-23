@@ -28,10 +28,7 @@ import math
 class Solution:
     def findComplement(self, num: int) -> int:
         bits_occupied = math.ceil(math.log(num, 2))
-        if 2 ** bits_occupied == num:
+        mask = 2 ** bits_occupied - 1
+        if mask + 1 == num:
             return num - 1
-        mask = 1
-        for i in range(bits_occupied - 1):
-            mask <<= 1
-            mask += 1
         return num ^ mask
