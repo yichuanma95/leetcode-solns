@@ -29,48 +29,33 @@ Solution memory usage: 16.6 MB, less than 100% of Python3 submissions
 
 # Definition for a binary tree node.
 # class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+from collections import defaultdict
 
 class Solution:
     def findMode(self, root: TreeNode) -> List[int]:
-        if root is None:
-            return []
+        elem_freq = defaultdict(int)
+        self.traverse_for_mode(root, elem_freq)
+        frequencies = list(elem_freq.items())
+        frequencies.sort(key=lambda x: x[1], reverse=True)
+        result = []
+        try:
+            max_freq = frequencies[0][1]
+        except IndexError:
+            return result
+        i = 0
+        while i < len(frequencies) and frequencies[i][1] == max_freq:
+            result.append(frequencies[i][0])
+            i += 1
+        return result
         
-        essentials = [0,0]
-        # 1st value is current streak, 2nd value is max streak, 3rd value is previous value
-        modes = []
-        
-        self.inOrder(root, essentials, modes)
-        if essentials[0] > essentials[1]:
-            return [essentials[2]]
-        elif essentials[0] == essentials[1]:
-            modes.append(essentials[2])
-        
-        return modes
-    
-    def inOrder(self, node, essentials, modes):
-        if node is None:
+    def traverse_for_mode(self, node, elem_freq):
+        if not node:
             return
-        
-        self.inOrder(node.left, essentials, modes)
-        if len(essentials) == 2:
-            essentials.append(node.val)
-            essentials[0] = 1
-            modes.append(node.val)
-        else:
-            if node.val == essentials[2]:
-                essentials[0] += 1
-            else:
-                if essentials[0] > essentials[1]:
-                    essentials[1] = essentials[0]
-                    while len(modes) > 1:
-                        modes.pop()
-                    modes[0] = essentials[2]
-                elif essentials[0] == essentials[1]:
-                    modes.append(essentials[2])
-                essentials[0] = 1
-                essentials[2] = node.val
-        self.inOrder(node.right, essentials, modes)
+        self.traverse_for_mode(node.left, elem_freq)
+        elem_freq[node.val] += 1
+        self.traverse_for_mode(node.right, elem_freq)

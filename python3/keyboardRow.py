@@ -27,10 +27,8 @@ class Solution:
     def is_word_in_row(self, word):
         rows = [set('qwertyuiop'), set('asdfghjkl'), set('zxcvbnm')]
         for row in rows:
-            all_letters = len(row)
-            no_letters = len(row) + len(word)
-            combined = row.union(word)
-            if len(combined) > all_letters and len(combined) < no_letters:
+            key_intersect = row.intersection(word)
+            if len(key_intersect) > 0 and len(key_intersect) < len(word):
                 return False
-            if len(combined) == all_letters:
+            if len(key_intersect) == len(word):
                 return True
