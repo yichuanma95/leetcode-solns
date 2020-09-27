@@ -12,47 +12,58 @@ Output: 1->1->2->3->4->4
 
 # Definition for singly-linked list.
 # class ListNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
 
 class Solution:
     def mergeTwoLists(self, l1: ListNode, l2: ListNode) -> ListNode:
-        current1: ListNode = l1
-        current2: ListNode = l2
-        prev1: ListNode = None
-        prev2: ListNode = None
-        merged: ListNode = None
-        newHead: ListNode = None
+        ''' (Solution, ListNode, ListNode) -> ListNode
+        
+        Given two linked lists whose elements are in sorted order, return a new merged
+        linked list containing elements of both lists in sorted order
+        '''
+        
+        current1 = l1
+        current2 = l2
+        prev1 = None
+        prev2 = None
+        head_of_merged = None
+        end_of_merged = None
         
         while current1 is not None and current2 is not None:
             if current1.val <= current2.val:
                 prev1 = current1
                 current1 = current1.next
                 prev1.next = None
-                if merged is None:
-                    merged = prev1
-                else:
-                    merged.next = prev1
-                    merged = merged.next
+                head_of_merged, end_of_merged = self.insert_at_end(head_of_merged, end_of_merged, prev1)
             else:
                 prev2 = current2
                 current2 = current2.next
                 prev2.next = None
-                if merged is None:
-                    merged = prev2
-                else:
-                    merged.next = prev2
-                    merged = merged.next
-            if newHead is None:
-                newHead = merged
+                head_of_merged, end_of_merged = self.insert_at_end(head_of_merged, end_of_merged, prev2)
+        
         if current1 is not None:
-            if merged is None:
-                return current1
-            merged.next = current1
+            head_of_merged, end_of_merged = self.insert_at_end(head_of_merged, end_of_merged, current1)
         if current2 is not None:
-            if merged is None:
-                return current2
-            merged.next = current2
+            head_of_merged, end_of_merged = self.insert_at_end(head_of_merged, end_of_merged, current2)
+        
+        return head_of_merged
 
-        return newHead
+    def insert_at_end(self, head: ListNode, last_elem: ListNode, node: ListNode) -> ListNode:
+        ''' (Solution, ListNode, int) -> ListNode
+        
+        Insert node at the end of a linked list whose head is head and last element
+        is last_elem. If the list was originally empty, make head point to the newly
+        inserted node. Otherwise, once node is inserted, move last_elem pointer to the newly
+        inserted node, which is the new last element in the list.     
+        '''
+        
+        if last_elem is None:
+            last_elem = node
+            head = node
+        else:
+            last_elem.next = node
+            last_elem = last_elem.next
+
+        return (head, last_elem)

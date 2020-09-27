@@ -15,7 +15,7 @@ divide and conquer approach, which is more subtle.
 
 class Solution:
     def maxSubArray(self, nums: List[int]) -> int:
-        ''' (Solution, list os int) -> int
+        ''' (Solution, list of int) -> int
         
         Find the contiguous subarray in nums with the largest sum and return it.
         
