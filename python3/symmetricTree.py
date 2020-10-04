@@ -9,7 +9,6 @@ For example, this binary tree [1,2,2,3,4,4,3] is symmetric:
   2   2
  / \ / \
 3  4 4  3
- 
 
 But the following [1,2,2,null,3,null,3] is not:
     1
@@ -17,9 +16,8 @@ But the following [1,2,2,null,3,null,3] is not:
   2   2
    \   \
    3    3
- 
 
-Note: Bonus points if you could solve it both recursively and iteratively.
+Follow up: Solve it both recursively and iteratively.
 
 Solution runtime: 32ms, faster than 98.73% of Python3 submissions
 
