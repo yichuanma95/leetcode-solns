@@ -21,7 +21,7 @@ return its bottom-up level order traversal as:
 
 Solution runtime: 28ms, faster than 99.9% of Python3 submissions
 
-Solution memory usageL 13.1 MB, less than 100% of Python3 submissions
+Solution memory usage: 13.1 MB, less than 100% of Python3 submissions
 '''
 
 # Definition for a binary tree node.
