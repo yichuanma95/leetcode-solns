@@ -54,8 +54,8 @@ Thefore INT_MIN (−231) is returned.
 import re
 
 class Solution:
-    def myAtoi(self, str: str) -> int:        
-        s = str.lstrip()        
+    def myAtoi(self, str: str) -> int:
+        s = str.lstrip()
         potential_nums = re.findall("[\+\-]{0,1}[0-9]+", s)
         
         if len(potential_nums) == 0:
@@ -65,4 +65,3 @@ class Solution:
                 return 0
         
         return min(max(int(potential_nums[0]), -(2 ** 31)), 2 ** 31 - 1)
-   

@@ -11,32 +11,28 @@ Output: True
 Example 2:
 Input: "abca"
 Output: True
-Explanation: You could delete the character 'c'.
+Explanation: You could delete the character 'c' or 'b' to make s a palindrome.
 
-Note: The string will only contain lowercase characters a-z. The maximum length of the string is 50000.
+Note: The string will only contain lowercase characters a-z. The maximum length of the string
+is 50000.
 '''
 
 class Solution:
     def validPalindrome(self, s: str) -> bool:
-        return self.checkPalindromeWithSingleDelete(s, True) or self.checkPalindromeWithSingleDelete(s, False)
+        left = 0
+        right = len(s) - 1
+        while left < right:
+            if s[left] != s[right]:
+                return self.check_if_palindrome(s, left + 1, right) or \
+                    self.check_if_palindrome(s, left, right - 1)
+            left += 1
+            right -= 1
+        return True
     
-    def checkPalindromeWithSingleDelete(self, s: str, deleteRight: bool) -> bool:
-        a = 0
-        b = len(s) - 1
-        deleted = False
-        
-        while b > a:
-            if s[a] == s[b]:
-                a += 1
-                b -= 1
-            else:
-                if deleted:
-                    return False
-                else:
-                    if deleteRight:
-                        b -= 1
-                    else:
-                        a += 1
-                    deleted = True
-        
+    def check_if_palindrome(self, s, left, right) -> bool:
+        while left < right:
+            if s[left] != s[right]:
+                return False
+            left += 1
+            right -= 1
         return True
